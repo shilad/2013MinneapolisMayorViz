@@ -4,8 +4,8 @@ var VIZ = VIZ || {};
 
 VIZ.init = function() {
     VIZ.votes = null;
-    VIZ.width = 1000;
-    VIZ.height = 1200;
+    VIZ.width = 800;
+    VIZ.height = 800;
     VIZ.loadData();
 };
 
@@ -94,7 +94,13 @@ VIZ.initNetwork = function() {
         .links(links)
         .gravity(.1)
         .friction(0.85)
-        .distance(150)
+        .linkDistance(100)
+        .linkStrength(function (l) {
+            var sv = l.source.votes;
+            var tv = l.target.votes;
+            console.log(Math.sqrt(Math.min(sv, tv) / Math.max(sv, tv)));
+            return Math.sqrt(Math.min(sv, tv) / Math.max(sv, tv))
+        })
         .charge(-300)
         .size([VIZ.width, VIZ.height]);
 
